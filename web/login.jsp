@@ -22,22 +22,18 @@
                     
                     <div class="col-4">
                         <form method="post" action="Public">
+                            <input type="hidden" name="action" value="login">
                             <c:forEach items="${requestScope.errors}" var="error">
                                 <p class="text-danger">${error}</p>
                             </c:forEach>
-
                             <label for="email-or-username-field">Username or Email</label>
                             <br>
                             <input type="text" id="email-or-username-field" name="email-or-username" class="form-control">
-
                             <br>
-
                             <label for="password-field">Password</label>
                             <br>
                             <input type="password" id="password-field" name="password" class="form-control">
-                            <br>
-                            
-                            <input type="hidden" name="action" value="login">
+                            <br>                          
                             <button type="submit" class="btn btn-success">Log In</button>
                         </form>
                     </div>

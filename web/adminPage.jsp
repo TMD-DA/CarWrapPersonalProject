@@ -1,6 +1,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<%
+    if (session.getAttribute("loggedInUser") == null) {
+        // Redirect to a different page if loggedInUser is not in the session
+        response.sendRedirect("login.jsp"); // Replace "login.jsp" with the desired redirection URL
+        return; // To stop further execution of JSP
+    }
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,7 +25,22 @@
             <h1>Admin Page</h1>
             <br>
             <div class="container">
-                
+                <div class="row">
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <form action="Private" method="post">
+                            <input type="hidden" name="action" value="viewEstimates">
+                            <button type="submit" class="btn btn-success">Estimate Requests</button>
+                        </form>
+                        <br>
+                        <form action="Private" method="post">
+                            <input type="hidden" name="action" value="viewReviews">
+                            <button type="submit" class="btn btn-success">See Reviews</button>
+                        </form>
+                    </div>
+                    <div class="col-4"></div>
+                </div>
+
             </div>
         </main>
     </body>

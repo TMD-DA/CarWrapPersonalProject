@@ -15,21 +15,33 @@
                 <li class="nav-item text-dark">
                     <a href="index.jsp" class="nav-link text-dark">Home</a>
                 </li>
-                <li class="nav-item">
-                    <a href="movies.jsp" class="nav-link text-dark">Reviews</a>
+                <li class="nav-item text-dark">
+                    <a href="about.jsp" class="nav-link text-dark">About Us</a>
                 </li>
                 <li class="nav-item">
-                        <a href="test.jsp" class="nav-link text-dark">Test</a>
+                    <a href="reviews.jsp" class="nav-link text-dark">Reviews</a>
+                </li>
+                <li class="nav-item">
+                    <a href="gallery.jsp" class="nav-link text-dark">Gallery</a>
                 </li>
                 <c:if test="${not empty loggedInUser || loggedInUser != null}">
                     <li class="nav-item">
                         <a href="userPage.jsp" class="nav-link text-dark">User Page</a>
                     </li>
                     <li class="nav-item">
+                        <a href="wrapEstimate.jsp" class="nav-link text-dark">Get an Estimate</a>
+                    </li>
+                    <li class="nav-item">
                         <form action="Private" method="post">
                             <input type="hidden" value="logout" name="action" />
                             <button role="link" type="submit" class="nav-link text-dark">Log Out</button>
                         </form>
+                    </li>
+                    
+                </c:if>
+                <c:if test="${loggedInUser.userType eq 'admin'}">
+                    <li class="nav-item">
+                        <a href="adminPage.jsp" class="nav-link text-dark">Admin Page</a>
                     </li>
                 </c:if>
                 <c:if test="${empty sessionScope.loggedInUser}">

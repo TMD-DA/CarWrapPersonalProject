@@ -157,7 +157,7 @@ public class Public extends HttpServlet {
 
         if (wasLogInSuccessful) {
             try {
-                loggedInUser = WrapDB.getUserInfo(usernameOrEmail, password);
+                loggedInUser = WrapDB.getUserInfo(usernameOrEmail);
                 request.getSession().setAttribute("loggedInUser", loggedInUser);
 
                 if (loggedInUser.getUserType().equals("admin")) {

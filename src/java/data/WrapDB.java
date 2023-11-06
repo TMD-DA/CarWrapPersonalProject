@@ -164,7 +164,7 @@ public class WrapDB {
         }
     }
 
-    public static User getUserInfo(String usernameOrEmail, String password) throws SQLException {
+    public static User getUserInfo(String usernameOrEmail) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
@@ -173,23 +173,23 @@ public class WrapDB {
         String query = "";
 
         if (Validation.isEmail(usernameOrEmail)) {
-            query = "SELECT * FROM user WHERE email = ? AND password = ?";
+            query = "SELECT * FROM user WHERE email = ?";
         } else {
-            query = "SELECT * FROM user WHERE username = ? AND password = ?";
+            query = "SELECT * FROM user WHERE username = ?";
         }
 
         try {
             ps = connection.prepareStatement(query);
             ps.setString(1, usernameOrEmail);
-            ps.setString(2, password);
             rs = ps.executeQuery();
             User user = null;
             if (rs.next()) {
                 int userid = rs.getInt("userID");
+                String userType = rs.getString("userType");
                 String userName = rs.getString("username");
                 String Password = rs.getString("password");
                 String email = rs.getString("email");
-                String userType = rs.getString("userType");
+                
                 user = new User(userid, userType, userName, Password, email);
             }
             return user;

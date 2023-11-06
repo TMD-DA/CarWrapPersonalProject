@@ -29,12 +29,37 @@ public class Private extends HttpServlet {
         if (action == null) {
             action = "default";
         }
-
+        // possibly change away from the switch case structure to an if structure.
         switch (action) {
 
             case "logout": {
                 logout(request);
 
+                break;
+            }
+            case "viewEstimates": {
+                url = "/viewEstimates.jsp";
+                
+                break;
+            }
+            case "viewReivews": {
+                url = "/viewReviews.jsp";
+                
+                break;
+            }
+            case "gotoReview": {
+                url = "/submitReview.jsp";
+                
+                break;
+            }
+            case "gotoUpdatePage": {
+                url = "/updateUser.jsp";
+                
+                break;
+            }
+            case "updateUser": {
+                
+                
                 break;
             }
         }

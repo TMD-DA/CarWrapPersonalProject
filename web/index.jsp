@@ -1,9 +1,3 @@
-<%-- 
-    Document   : index
-    Created on : Oct 29, 2023, 3:25:09 PM
-    Author     : tmdel
---%>
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
