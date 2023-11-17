@@ -92,6 +92,8 @@ public class Public extends HttpServlet {
         String phone = ((String) request.getParameter("phone"));
         String password = ((String) request.getParameter("password"));
         String verifyPassword = ((String) request.getParameter("verify-password"));
+        
+        phone = Validation.formatPhoneNumber(phone);
 
         List<String> errors = new ArrayList<String>();
         HashMap<String, String> error = new HashMap<>();
@@ -106,6 +108,10 @@ public class Public extends HttpServlet {
         
         if (!Validation.isValidUsername(username)) {
             errors.add("The username you entered is already taken.");
+        }
+        
+        if (!Validation.isValidPhoneNumber(phone)) {
+            errors.add("The phone number entered is invalid please enter the phone number again.");
         }
         
         if (!Validation.isValidPassword(password)) {

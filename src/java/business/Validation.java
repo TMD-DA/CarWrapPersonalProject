@@ -65,4 +65,21 @@ public class Validation {
 
         return result;
     }
+    
+    public static boolean isValidPhoneNumber(String phoneNumber) {
+        // Define the pattern for a valid phone number
+        String regex = "^(\\+\\d{1,2}[-.\\s]?)?\\(?\\d{3}\\)?[-.\\s]?\\d{3}[-.\\s]?\\d{4}$";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(phoneNumber);
+        return matcher.matches();
+    }
+
+    // Format a phone number as (###)###-####
+    public static String formatPhoneNumber(String phoneNumber) {
+        // Remove non-digit characters
+        String digitsOnly = phoneNumber.replaceAll("\\D", "");
+
+        // Format the phone number as (###)###-####
+        return digitsOnly.replaceFirst("(\\d{3})(\\d{3})(\\d{4})", "($1)$2-$3");
+    }
 }

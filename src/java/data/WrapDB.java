@@ -281,4 +281,206 @@ public class WrapDB {
             }
         }
     }
+    
+    public static void updateUserUsername(User user) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "UPDATE user "
+                + "SET username = ? "
+                + "WHERE userID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, user.getUsername());
+            ps.setInt(2, user.getUserID());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get user", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static void updateUserPassword(User user) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "UPDATE user "
+                + "SET password = ? "
+                + "WHERE userID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, user.getPassword());
+            ps.setInt(2, user.getUserID());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get user", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static void updateUserEmail(User user) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "UPDATE user "
+                + "SET email = ? "
+                + "WHERE userID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, user.getEmail());
+            ps.setInt(2, user.getUserID());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get user", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static void updateUserFirstName(User user) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "UPDATE user "
+                + "SET firstName = ? "
+                + "WHERE userID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, user.getFirstName());
+            ps.setInt(2, user.getUserID());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get user", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static void updateUserLastName(User user) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "UPDATE user "
+                + "SET lastName = ? "
+                + "WHERE userID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, user.getLastName());
+            ps.setInt(2, user.getUserID());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get user", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static void updateUserPhone(User user) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "UPDATE user "
+                + "SET phone = ? "
+                + "WHERE userID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, user.getPhone());
+            ps.setInt(2, user.getUserID());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get user", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static int deleteUser(int userID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "DELETE FROM user "
+                + "WHERE userID = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, userID);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** delete user sql", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    
 }

@@ -2,8 +2,12 @@ package controllers;
 
 import business.User;
 import business.Validation;
+import data.WrapDB;
+import data.security.SecurityUtil;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -39,29 +43,116 @@ public class Private extends HttpServlet {
             }
             case "viewEstimates": {
                 url = "/viewEstimates.jsp";
-                
+
                 break;
             }
             case "viewReivews": {
                 url = "/viewReviews.jsp";
-                
+
                 break;
             }
             case "gotoReview": {
                 url = "/submitReview.jsp";
-                
+
                 break;
             }
             case "gotoUpdatePage": {
                 url = "/updateUser.jsp";
-                
+
                 break;
             }
             case "updateUser": {
-                
-                
+                try {
+                    String newEmail = request.getParameter("email");
+                    String newUsername = request.getParameter("username");
+                    String newPassword = request.getParameter("password");
+                    String verifyPassword = request.getParameter("verifypassword");
+                    String newPhone = request.getParameter("phone");
+                    List<String> errors = new ArrayList();
+
+                    if (!newEmail.equals("")) {
+                        if (!Validation.isEmail(newEmail)) {
+                            errors.add("The email you entered is not a valid format. A valid format looks like this: example@somesite.com");
+                        }
+
+                        if (!Validation.isValidEmail(newEmail)) {
+                            loggedInUser.setEmail(newEmail);
+                            try {
+                                WrapDB.updateUserEmail(loggedInUser);
+                            } catch (SQLException e) {
+                                Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                            }
+                        } else {
+                            errors.add("Email is already tied to an account please use a different email address.");
+                        }
+                    }
+
+                    if (!newUsername.equals("")) {
+                        if (Validation.isValidUsername(newUsername)) {
+                            loggedInUser.setUsername(newUsername);
+                            try {
+                                WrapDB.updateUserUsername(loggedInUser);
+                            } catch (SQLException e) {
+                                Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                            }
+                        } else {
+                            errors.add("The username is already taken.");
+                        }
+                    }
+
+                    if (!newPhone.equals("")) {
+                        newPhone = Validation.formatPhoneNumber(newPhone);
+
+                        if (Validation.isValidPhoneNumber(newPhone)) {
+                            loggedInUser.setPhone(newPhone);
+                            try {
+                                WrapDB.updateUserPhone(loggedInUser);
+                            } catch (SQLException e) {
+                                Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                            }
+                        }
+                    } else {
+                        errors.add("The phone number you entered is invalid please re-enter phone number.");
+                    }
+
+                    if (!newPassword.equals("") && !verifyPassword.equals("")) {
+                        if (!newPassword.equals(verifyPassword)) {
+                            errors.add("The passwords don't match please re-enter new password.");
+                        } else if (!Validation.isValidPassword(newPassword)) {
+                            errors.add("Passwords must be longer than 10 characters");
+                        } else {
+                            newPassword = SecurityUtil.hashPassword(newPassword);
+
+                            loggedInUser.setPassword(newPassword);
+                            try {
+                                WrapDB.updateUserPassword(loggedInUser);
+                            } catch (SQLException e) {
+                                Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                            }
+                        }
+                    } else if (!newPassword.equals("") && verifyPassword.equals("")) {
+                        errors.add("You must enter re-enter your password.");
+                    } else if (newPassword.equals("") && !verifyPassword.equals("")) {
+                        errors.add("You must enter your new password if you want to change it.");
+                    }
+
+                    if (errors.isEmpty()) {
+                        url = "/userPage.jsp";
+                    } else {
+                        request.setAttribute("errorList", errors);
+                        response.sendRedirect(url);
+                    }
+
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+
                 break;
             }
+            
+            
         }
 
         getServletContext().getRequestDispatcher(url).forward(request, response);
@@ -99,6 +190,7 @@ public class Private extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
+
     }
 
     /**

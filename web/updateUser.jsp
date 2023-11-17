@@ -27,49 +27,41 @@
                 <div class="row">
                     <div class="col-4"></div>
                     <div class="col-4">
-                        <c:if test="${not empty errors}">
+                        <c:if test="${not empty errorList}">
                             <ul class="list-unstyled">
-                                <c:forEach items="${errors}" var="error">
+                                <c:forEach items="${errorList}" var="error">
                                     <li class="text-danger">${error}</li>
-                                </c:forEach>
+                                    </c:forEach>
                             </ul>
                         </c:if>
                         <form action="Private" method="post">
                             <input type="hidden" name="action" value="updateUser">
                             <label for="email-field">Email</label>
                             <br>
-                            <input type="email" id="email-field" name="email" class="form-control">
+                            <input type="email" id="email-field" name="email" class="form-control"/>
                             <br>
                             <label for="username-field">Username</label>
                             <br>
-                            <input type="text" id="username-field" name="username" class="form-control">
-                            <br>
-                            <label for="first-name-field">First Name</label>
-                            <br>
-                            <input type="text" id="first-name-field" name="firstname" class="form-control">
-                            <br>
-                            <label for="last-name-field">Last Name</label>
-                            <br>
-                            <input type="text" id="last-name-field" name="lastname" class="form-control">
+                            <input type="text" id="username-field" name="username" class="form-control"/>
                             <br>
                             <label for="phone-field">Phone Number</label>
                             <br>
-                            <input type="text" id="phone-field" name="phone" class="form-control">
+                            <input type="text" id="phone-field" name="phone" class="form-control"/>
                             <br>
                             <label for="password-field">Password</label>
                             <br>
-                            <input type="password" id="password-field" name="password" class="form-control">
+                            <input type="password" id="password-field" name="password" class="form-control"/>
                             <br>
                             <label for="verify-password-field">Verify Password</label>
                             <br>
-                            <input type="password" id="verify-password-field" name="verify-password" class="form-control">
+                            <input type="password" id="verify-password-field" name="verify-password" class="form-control"/>
                             <br>
                             <button type="submit" class="btn btn-success">Update Profile</button>
                         </form>
                         <br><br><br>
                         <form action="Private" method="post">
                             <input type="hidden" name="action" value="deleteAccount">
-                            <button type="submit" class="btn btn-success">Delete Account"</button>
+                            <button type="submit" class="btn btn-success">Delete Account</button>
                         </form>
                     </div>
                     <div class="col-4"></div>
