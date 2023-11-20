@@ -9,6 +9,7 @@ package business;
  * @author tmdel
  */
 public class Estimate {
+
     private int estimateID, userID, year;
     private String make, model, wrapDescription;
 
@@ -21,6 +22,14 @@ public class Estimate {
         this.year = year;
         this.make = make;
         this.model = model;
+        this.wrapDescription = wrapDescription;
+    }
+
+    public Estimate(int userID, String make, String model, int year, String wrapDescription) {
+        this.userID = userID;
+        this.make = make;
+        this.model = model;
+        this.year = year;
         this.wrapDescription = wrapDescription;
     }
 
@@ -71,6 +80,5 @@ public class Estimate {
     public void setWrapDescription(String wrapDescription) {
         this.wrapDescription = wrapDescription;
     }
-    
-    
+
 }

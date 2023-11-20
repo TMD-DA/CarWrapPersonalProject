@@ -39,7 +39,7 @@
                             <input type="hidden" name="action" value="submitReview">
                             <label for="rating-field">Rating</label>
                             <br>
-                            <select id="rating-field" name="selectedNumber" class="form-control">
+                            <select id="rating-field" name="rating" class="form-control">
                                 <option value="" disabled selected>Select a rating number.</option>
                                 <% for (int i = 1; i <= 10; i++) {%>
                                 <option value="<%= i%>"><%= i%></option>

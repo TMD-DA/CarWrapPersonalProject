@@ -11,13 +11,18 @@ package business;
 public class Review {
     private int reviewID, userID, rating;
     public String review;
-    // There will be one more variable here for the picture.
 
     public Review() {
     }
 
     public Review(int reviewID, int userID, int rating, String review) {
         this.reviewID = reviewID;
+        this.userID = userID;
+        this.rating = rating;
+        this.review = review;
+    }
+
+    public Review(int userID, int rating, String review) {
         this.userID = userID;
         this.rating = rating;
         this.review = review;

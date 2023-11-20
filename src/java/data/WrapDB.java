@@ -4,6 +4,8 @@
  */
 package data;
 
+import business.Estimate;
+import business.Review;
 import business.User;
 import business.Validation;
 import java.sql.Connection;
@@ -482,5 +484,65 @@ public class WrapDB {
         }
     }
     
+    public static int insertEstimate(Estimate estimate) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "INSERT INTO estimate (userID, make, model, year, wrapDescription) "
+                + "VALUES (?, ?, ?, ?, ?)";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, estimate.getUserID());
+            ps.setString(2, estimate.getMake());
+            ps.setString(3, estimate.getModel());
+            ps.setInt(4, estimate.getYear());
+            ps.setString(5, estimate.getWrapDescription());
     
+            return ps.executeUpdate();
+
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** insert sql", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** insert null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static int insertReview(Review review) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "INSERT INTO review (userID, review, rating) "
+                + "VALUES (?, ?, ?)";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, review.getUserID());
+            ps.setString(2, review.getReview());
+            ps.setInt(3, review.getRating());
+     
+            return ps.executeUpdate();
+
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** insert sql", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** insert null pointer?", e);
+                throw e;
+            }
+        }
+    }
 }

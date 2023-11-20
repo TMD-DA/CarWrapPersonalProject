@@ -1,5 +1,7 @@
 package controllers;
 
+import business.Estimate;
+import business.Review;
 import business.User;
 import business.Validation;
 import data.WrapDB;
@@ -33,9 +35,8 @@ public class Private extends HttpServlet {
         if (action == null) {
             action = "default";
         }
-        // possibly change away from the switch case structure to an if structure.
-        switch (action) {
 
+        switch (action) {
             case "logout": {
                 logout(request);
 
@@ -131,7 +132,7 @@ public class Private extends HttpServlet {
                             }
                         }
                     } else if (!newPassword.equals("") && verifyPassword.equals("")) {
-                        errors.add("You must enter re-enter your password.");
+                        errors.add("You must verify your password.");
                     } else if (newPassword.equals("") && !verifyPassword.equals("")) {
                         errors.add("You must enter your new password if you want to change it.");
                     }
@@ -151,8 +152,77 @@ public class Private extends HttpServlet {
 
                 break;
             }
+            case "requestEstimate": {
+                int userID = (int) loggedInUser.getUserID();
+                String make = (String) request.getParameter("make");
+                String model = (String) request.getParameter("model");
+                String yearString = (String) request.getParameter("year");
+                String wrapDescription = (String) request.getParameter("wrapdescription");
+                int year = 0;
+                List<String> errors = new ArrayList();
+
+                if (make.equals("")) {
+                    errors.add("You must enter the vehicles make.");
+                }
+
+                if (model.equals("")) {
+                    errors.add("You must enter the vehicles model.");
+                }
+
+                if (yearString.equals("")) {
+                    errors.add("You must enter the vehicles year.");
+                }
+
+                if (wrapDescription.equals("")) {
+                    errors.add("You must enter the wrap description.");
+                }
+
+                if (errors.isEmpty()) {
+                    try {
+                        year = Integer.parseInt(yearString);
+                    } catch (Exception e) {
+                        Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                    }
+
+                    Estimate estimate = new Estimate(userID, make, model, year, wrapDescription);
+
+                    try {
+                        WrapDB.insertEstimate(estimate);
+                    } catch (SQLException ex) {
+                        Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    url = "/userPage.jsp";
+                } else {
+                    request.setAttribute("errorList", errors);
+                    response.sendRedirect(url);
+                }
+
+                break;
+            }
             
-            
+            case "submitReview": {
+                int userID = (int) loggedInUser.getUserID();
+                int rating = 0;
+                String reviewInput = (String) request.getParameter("review");
+
+                try {
+                    rating = Integer.parseInt(request.getParameter("rating"));
+                } catch (NumberFormatException en) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, en);
+                }
+                
+                Review review = new Review(userID, rating, reviewInput);
+                
+                try {
+                    WrapDB.insertReview(review);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                url = "/userPage.jsp";
+                
+                break;
+            }
+
         }
 
         getServletContext().getRequestDispatcher(url).forward(request, response);

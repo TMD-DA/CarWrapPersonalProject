@@ -22,7 +22,7 @@
                     <a href="reviews.jsp" class="nav-link text-dark">Reviews</a>
                 </li>
                 <li class="nav-item">
-                    <a href="gallery.jsp" class="nav-link text-dark">Gallery</a>
+                    <a href="services.jsp" class="nav-link text-dark">Services</a>
                 </li>
                 <c:if test="${not empty loggedInUser || loggedInUser != null}">
                     <li class="nav-item">
