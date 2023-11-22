@@ -40,9 +40,25 @@
                     
                 </c:if>
                 <c:if test="${loggedInUser.userType eq 'admin'}">
-                    <li class="nav-item">
-                        <a href="adminPage.jsp" class="nav-link text-dark">Admin Page</a>
+                    <!-- Begin Admin Dropdown -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Admin
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li class="dropdown-item">
+                                <a href="http://localhost/phpmyadmin/index.php?route=/database/structure&db=wrapdb" target=?_blank? class="nav-link text-dark">Database</a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a href="Private?action=gotoAdminUserNE" class="nav-link text-dark">Cold Call User List</a>
+                            </li>
+                            <li class="dropdown-item">
+                                <a href="Private?action=adminUserAction" class="nav-link text-dark">Admin Users</a>
+                            </li>
+                        </ul>
                     </li>
+                    <!-- End Admin Dropdown -->
+
                 </c:if>
                 <c:if test="${empty sessionScope.loggedInUser}">
                     <li class="nav-item">

@@ -9,6 +9,7 @@ import data.security.SecurityUtil;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -199,7 +200,7 @@ public class Private extends HttpServlet {
 
                 break;
             }
-            
+
             case "submitReview": {
                 int userID = (int) loggedInUser.getUserID();
                 int rating = 0;
@@ -210,19 +211,65 @@ public class Private extends HttpServlet {
                 } catch (NumberFormatException en) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, en);
                 }
-                
+
                 Review review = new Review(userID, rating, reviewInput);
-                
+
                 try {
                     WrapDB.insertReview(review);
                 } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 url = "/userPage.jsp";
-                
+
                 break;
             }
 
+            case "adminUserAction": {
+                url = "/adminUsers.jsp";
+                LinkedHashMap<String, User> allUsers = new LinkedHashMap();
+
+                try {
+                    allUsers = WrapDB.selectAllUsers();
+                } catch (SQLException e) {
+                    Logger.getLogger(WrapDB.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+                request.setAttribute("allUsers", allUsers);
+                break;
+            }
+
+            case "adminDeleteUser": {
+                int userID = 0;
+                try {
+                    userID = Integer.parseInt(request.getParameter("userID"));
+                } catch (Exception e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+                try {
+                    WrapDB.deleteUser(userID);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                url = "/Private?action=adminUserAction";
+                break;
+            }
+
+            case "gotoAdminUserNE": {
+                url = "/adminUserNE.jsp";
+                LinkedHashMap<String, User> noEstUsers = new LinkedHashMap();
+
+                try {
+                    noEstUsers = WrapDB.selectUsersNoEstimate();
+                } catch (SQLException e) {
+                    Logger.getLogger(WrapDB.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+                request.setAttribute("noEstUsers", noEstUsers);
+
+                break;
+            }
         }
 
         getServletContext().getRequestDispatcher(url).forward(request, response);

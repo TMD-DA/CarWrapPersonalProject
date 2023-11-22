@@ -13,7 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Wrap - Admin</title>
+        <title>Wrap - Admin Cold Call List</title>
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
@@ -28,8 +28,24 @@
                 <div class="row">
                     <div class="col-4"></div>
                     <div class="col-4">
-                        <h1>possible location for a couple different metrics</h1>
+                        <h1>Cold Call List</h1>
                     </div>
+                    <table border='1' column='1'>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Phone Number</th>
+                            <th>Email Address</th>
+                        </tr>
+                        <c:forEach var="user" items="${noEstUsers}">
+                            <tr>
+                                <td>${user.firstName}</td>
+                                <td>${user.lastName}</td>
+                                <td>${user.phone}</td>
+                                <td>${user.email}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
                     <div class="col-4"></div>
                 </div>
 

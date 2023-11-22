@@ -95,6 +95,47 @@ public class WrapDB {
             }
         }
     }
+    
+    public static LinkedHashMap<String, User> selectUsersNoEstimate() throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT * FROM user "
+                + "WHERE userID NOT IN "
+                + "(SELECT userID FROM estimate)";
+        try {
+            ps = connection.prepareStatement(query);
+
+            rs = ps.executeQuery();
+            User user = null;
+            LinkedHashMap<String, User> users = new LinkedHashMap();
+
+            while (rs.next()) {
+                int userID = rs.getInt("userID");
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                user = new User(userID, firstName, lastName, phone, email);
+                users.put(user.getUsername(), user);
+            }
+            return users;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** select all sql", e);
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** select all null pointer?", e);
+                throw e;
+            }
+        }
+    }
 
     public static String getPasswordForUsername(String username) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
