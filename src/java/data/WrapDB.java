@@ -4,15 +4,14 @@
  */
 package data;
 
-import business.Estimate;
-import business.Review;
-import business.User;
-import business.Validation;
+import business.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -96,7 +95,47 @@ public class WrapDB {
         }
     }
     
-    public static LinkedHashMap<String, User> selectUsersNoEstimate() throws SQLException {
+    public static List<UserData> selectUsersData() throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT * FROM user ";
+     
+        try {
+            ps = connection.prepareStatement(query);
+
+            rs = ps.executeQuery();
+            UserData user = null;
+            List<UserData> users = new ArrayList<>();
+            
+            while (rs.next()) {
+                int userID = rs.getInt("userID");
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                user = new UserData(userID, firstName, lastName, phone, email);
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** select all sql", e);
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** select all null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static List<UserData> selectUsersNoEstimate() throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
         PreparedStatement ps = null;
@@ -109,17 +148,17 @@ public class WrapDB {
             ps = connection.prepareStatement(query);
 
             rs = ps.executeQuery();
-            User user = null;
-            LinkedHashMap<String, User> users = new LinkedHashMap();
-
+            UserData user = null;
+            List<UserData> users = new ArrayList<>();
+            
             while (rs.next()) {
                 int userID = rs.getInt("userID");
                 String firstName = rs.getString("firstName");
                 String lastName = rs.getString("lastName");
                 String phone = rs.getString("phone");
                 String email = rs.getString("email");
-                user = new User(userID, firstName, lastName, phone, email);
-                users.put(user.getUsername(), user);
+                user = new UserData(userID, firstName, lastName, phone, email);
+                users.add(user);
             }
             return users;
         } catch (SQLException e) {

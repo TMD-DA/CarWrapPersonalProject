@@ -1,9 +1,6 @@
 package controllers;
 
-import business.Estimate;
-import business.Review;
-import business.User;
-import business.Validation;
+import business.*;
 import data.WrapDB;
 import data.security.SecurityUtil;
 import java.io.IOException;
@@ -226,10 +223,10 @@ public class Private extends HttpServlet {
 
             case "adminUserAction": {
                 url = "/adminUsers.jsp";
-                LinkedHashMap<String, User> allUsers = new LinkedHashMap();
+                List<UserData> allUsers = new ArrayList<>();
 
                 try {
-                    allUsers = WrapDB.selectAllUsers();
+                    allUsers = WrapDB.selectUsersData();
                 } catch (SQLException e) {
                     Logger.getLogger(WrapDB.class.getName()).log(Level.SEVERE, null, e);
                 }
@@ -258,7 +255,7 @@ public class Private extends HttpServlet {
 
             case "gotoAdminUserNE": {
                 url = "/adminUserNE.jsp";
-                LinkedHashMap<String, User> noEstUsers = new LinkedHashMap();
+                List<UserData> noEstUsers = new ArrayList<>();
 
                 try {
                     noEstUsers = WrapDB.selectUsersNoEstimate();
@@ -268,6 +265,18 @@ public class Private extends HttpServlet {
 
                 request.setAttribute("noEstUsers", noEstUsers);
 
+                break;
+            }
+
+            case "gotoAdminReviews": {
+                url = "/adminReviews.jsp";
+                
+                break;
+            }
+            
+            case "gotoAdminQuotes": {
+                url = "/adminQuotes.jsp";
+                
                 break;
             }
         }

@@ -37,12 +37,12 @@
                             <th>Phone Number</th>
                             <th>Email Address</th>
                         </tr>
-                        <c:forEach var="user" items="${noEstUsers}">
+                        <c:forEach var="userData" items="${noEstUsers}">
                             <tr>
-                                <td>${user.firstName}</td>
-                                <td>${user.lastName}</td>
-                                <td>${user.phone}</td>
-                                <td>${user.email}</td>
+                                <td>${userData.firstName}</td>
+                                <td>${userData.lastName}</td>
+                                <td>${userData.phone}</td>
+                                <td>${userData.email}</td>
                             </tr>
                         </c:forEach>
                     </table>

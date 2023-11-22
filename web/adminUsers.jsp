@@ -30,16 +30,29 @@
                     <div class="col-4">
                         <h1>Admin all users page</h1>
                     </div>
-                    <ul>
-                        <c:forEach var="user" items="${allUsers}">
-                            <li class='list-unstyled'>${user.value.username} 
-                                <form action="Private" method="post">
-                                    <input type="hidden" name="userID" value="${user.value.userID}"/>
-                                    <input type="hidden" name="action" value="adminDeleteUser" class="form-control"/>
-                                    <button type="submit" class="btn btn-success">Delete User</button>
-                                </form>
-                            </li>
+                    <table border='1' column='1'>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Phone Number</th>
+                            <th>Email Address</th>
+                        </tr>
+                        <c:forEach var="userData" items="${allUsers}">
+                            <tr>
+                                <td>${userData.firstName}</td>
+                                <td>${userData.lastName}</td>
+                                <td>${userData.phone}</td>
+                                <td>${userData.email}</td>
+                                <td>
+                                    <form action="Private" method="post">
+                                        <input type="hidden" name="userID" value="${userData.userID}"/>
+                                        <input type="hidden" name="action" value="adminDeleteUser" class="form-control"/>
+                                        <button type="submit" class="btn btn-success">Delete User</button>
+                                    </form>
+                                </td>
+                            </tr>
                         </c:forEach>
+                    </table>
                     </ul>
                     <div class="col-4"></div>
                 </div>
