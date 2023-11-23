@@ -135,6 +135,96 @@ public class WrapDB {
         }
     }
     
+    public static List<UserDataReview> selectUsersDataReview() throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT r.reviewID, u.userID, u.username, u.phone, u.email, "
+                + "r.review, r.rating FROM user u INNER JOIN review r ON u.userID = r.userID"; 
+     
+        try {
+            ps = connection.prepareStatement(query);
+
+            rs = ps.executeQuery();
+            UserDataReview user = null;
+            List<UserDataReview> users = new ArrayList<>();
+            
+            while (rs.next()) {
+                int reviewID = rs.getInt("reviewID");
+                int userID = rs.getInt("userID");
+                String username = rs.getString("username");
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                String review = rs.getString("review");
+                int rating = rs.getInt("rating");
+                user = new UserDataReview(reviewID, userID, username, phone, email, review, rating);
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** select all sql", e);
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** select all null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static List<UserDataEstimate> selectUsersDataEstimate() throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT u.userID, u.firstName, u.lastName, u.phone, u.email, "
+                + "e.make, e.model, e.year, e.wrapDescription FROM user u "
+                + "INNER JOIN estimate e on u.userID = e.userID";
+     
+        try {
+            ps = connection.prepareStatement(query);
+
+            rs = ps.executeQuery();
+            UserDataEstimate user = null;
+            List<UserDataEstimate> users = new ArrayList<>();
+            
+            while (rs.next()) {
+                int userID = rs.getInt("userID");
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
+                String phone = rs.getString("phone");
+                String email = rs.getString("email");
+                String make = rs.getString("make");
+                String model = rs.getString("model");
+                int year = rs.getInt("year");
+                String wrapDescription = rs.getString("wrapDescription");
+                user = new UserDataEstimate(userID, firstName, lastName, phone, 
+                        email, make, model, year, wrapDescription);
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** select all sql", e);
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** select all null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
     public static List<UserData> selectUsersNoEstimate() throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -559,6 +649,32 @@ public class WrapDB {
                 pool.freeConnection(connection);
             } catch (Exception e) {
                 LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static int deleteReview(int userID, int reviewID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "DELETE FROM review "
+                + "WHERE userID = ? AND reviewID = ?";
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, userID);
+            return ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** delete review sql", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (Exception e) {
+                LOG.log(Level.SEVERE, "*** delete review null pointer?", e);
                 throw e;
             }
         }

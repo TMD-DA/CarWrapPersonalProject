@@ -28,8 +28,39 @@
                 <div class="row">
                     <div class="col-4"></div>
                     <div class="col-4">
-                        <h1>A place to view reviews from customers and if need be delete them</h1>
+                        <h1>User Reviews</h1>
                     </div>
+                    <table class="table table-striped" border='1' column='1'>
+                        <thead>
+                            <tr class="table-dark">
+                                <th>Username</th>
+                                <th>Phone Number</th>
+                                <th>Email Address</th>
+                                <th>Review</th>
+                                <th>Rating</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="userData" items="${userReview}">
+                                <tr>
+                                    <td>${userData.username}</td>
+                                    <td>${userData.phone}</td>
+                                    <td>${userData.email}</td>
+                                    <td>${userData.review}</td>
+                                    <td>${userData.rating}</td>
+                                    <td>
+                                        <form action="Private" method="post">
+                                            <input type="hidden" name="userID" value="${userData.userID}"/>
+                                            <input type="hidden" name="reviewID" value="${userDate.reviewID}"
+                                            <input type="hidden" name="action" value="adminDeleteReview" class="form-control"/>
+                                            <button type="submit" class="btn btn-success">Delete Review</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
                     <div class="col-4"></div>
                 </div>
 

@@ -59,7 +59,7 @@
                                 <a href="Private?action=gotoAdminReviews" class="nav-link text-dark">Admin Reviews</a>
                             </li>
                             <li class="dropdown-item">
-                                <a href="Private?action=gotoAdminQuote" class="nav-link text-dark">Admin Quotes</a>
+                                <a href="Private?action=gotoAdminQuotes" class="nav-link text-dark">Admin Quotes</a>
                             </li>
                         </ul>
                     </li>

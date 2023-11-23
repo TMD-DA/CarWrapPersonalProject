@@ -270,12 +270,56 @@ public class Private extends HttpServlet {
 
             case "gotoAdminReviews": {
                 url = "/adminReviews.jsp";
+                List<UserDataReview> userReview = new ArrayList<>();
+                
+                try {
+                    userReview = WrapDB.selectUsersDataReview();
+                } catch (SQLException e) {
+                    Logger.getLogger(WrapDB.class.getName()).log(Level.SEVERE, null, e);
+                }
+                
+                request.setAttribute("userReview", userReview);
+                
+                break;
+            }
+            
+            case "adminDeleteReview": {
+                int userID = 0;
+                int reviewID = 0;
+                
+                try {
+                    userID = Integer.parseInt(request.getParameter("userID"));
+                } catch (Exception e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+                try {
+                    reviewID = Integer.parseInt(request.getParameter("reviewID"));
+                } catch (Exception e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+                try {
+                    WrapDB.deleteReview(userID, reviewID);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                url = "/Private?action=gotoAdminReviews";
                 
                 break;
             }
             
             case "gotoAdminQuotes": {
                 url = "/adminQuotes.jsp";
+                List<UserDataEstimate> userEstimate = new ArrayList<>();
+                
+                try {
+                    userEstimate = WrapDB.selectUsersDataEstimate();
+                } catch (SQLException e) {
+                    Logger.getLogger(WrapDB.class.getName()).log(Level.SEVERE, null, e);
+                }
+                
+                request.setAttribute("userEstimate", userEstimate);
                 
                 break;
             }

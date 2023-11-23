@@ -30,21 +30,25 @@
                     <div class="col-4">
                         <h1>Cold Call List</h1>
                     </div>
-                    <table border='1' column='1'>
-                        <tr>
-                            <th>First Name</th>
-                            <th>Last Name</th>
-                            <th>Phone Number</th>
-                            <th>Email Address</th>
-                        </tr>
-                        <c:forEach var="userData" items="${noEstUsers}">
-                            <tr>
-                                <td>${userData.firstName}</td>
-                                <td>${userData.lastName}</td>
-                                <td>${userData.phone}</td>
-                                <td>${userData.email}</td>
+                    <table class="table table-striped" border='1' column='1'>
+                        <thead>
+                            <tr class="table-dark">
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Phone Number</th>
+                                <th>Email Address</th>
                             </tr>
-                        </c:forEach>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="userData" items="${noEstUsers}">
+                                <tr>
+                                    <td>${userData.firstName}</td>
+                                    <td>${userData.lastName}</td>
+                                    <td>${userData.phone}</td>
+                                    <td>${userData.email}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
                     </table>
                     <div class="col-4"></div>
                 </div>

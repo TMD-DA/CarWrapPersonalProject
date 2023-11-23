@@ -28,8 +28,36 @@
                 <div class="row">
                     <div class="col-4"></div>
                     <div class="col-4">
-                        <h1>page to show requests for estimates from customers</h1>
+                        <h1>Estimate Requests</h1>
                     </div>
+                    <table class="table table-striped" border='1' column='1'>
+                        <thead>
+                            <tr class="table-dark">
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Phone Number</th>
+                                <th>Email Address</th>
+                                <th>Make</th>
+                                <th>Model</th>
+                                <th>Year</th>
+                                <th>Wrap Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="userData" items="${userEstimate}">
+                                <tr>
+                                    <td>${userData.firstName}</td>
+                                    <td>${userData.lastName}</td>
+                                    <td>${userData.phone}</td>
+                                    <td>${userData.email}</td>
+                                    <td>${userData.make}</td>
+                                    <td>${userData.model}</td>
+                                    <td>${userData.year}</td>
+                                    <td>${userData.wrapDescription}</td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
                     <div class="col-4"></div>
                 </div>
 
