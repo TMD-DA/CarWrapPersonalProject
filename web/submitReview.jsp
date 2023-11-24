@@ -48,7 +48,8 @@
                             <br>
                             <label for="review-field">Review</label>
                             <br>
-                            <textarea id="review-field" name="review" rows="5" cols="50" class="form-control"></textarea>
+                            <textarea id="review-field" name="review" maxlength="255" rows="5" cols="50" class="form-control"></textarea>
+                            <p>Character Limit: 255</p>
                             <br>
                             <button type="submit" class="btn btn-success">Submit Review</button>
                         </form>

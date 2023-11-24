@@ -22,23 +22,90 @@
     <body>
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
-            <h1>Welcome <c:out value="${loggedInUser.username}"/></h1>
             <br>
             <div class="container">
                 <div class="row">
                     <div class="col-4"></div>
                     <div class="col-4">
-                        <form action="Private" method="post">
-                            <input type="hidden" name="action" value="gotoUpdatePage">
-                            <button type="submit" class="btn btn-success">Update Profile</button>
-                        </form>
-                        <br>
-                        <form action="Private" method="post">
-                            <input type="hidden" name="action" value="gotoReview">
-                            <button type="submit" class="btn btn-success">Submit Review</button>
-                        </form>
+                        <h1>Welcome <c:out value="${loggedInUser.username}"/></h1>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <form action="Private" method="post" class="text-end">
+                                <input type="hidden" name="action" value="gotoUpdatePage">
+                                <button type="submit" class="btn btn-success">Update Profile</button>
+                            </form>
+                        </div>
 
+                        <c:if test="${not empty userEstimate}">
+                            <div class="col">
+                                <form action="Private" method="post">
+                                    <input type="hidden" name="action" value="gotoReview">
+                                    <button type="submit" class="btn btn-success">Submit Review</button>
+                                </form>
+                            </div>
+                        </div>
+                    </c:if>
+
+                    <c:if test="${not empty userEstimate}">
+                        <table class="table table-striped" border='1' column='1'>
+                            <thead>
+                                <tr class="table-dark">
+                                    <th>Make</th>
+                                    <th>Model</th>
+                                    <th>Year</th>
+                                    <th>Wrap Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="userData" items="${userEstimate}">
+                                    <tr>
+                                        <td>${userData.make}</td>
+                                        <td>${userData.model}</td>
+                                        <td>${userData.year}</td>
+                                        <td>${userData.wrapDescription}</td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:if>
+
+                    <c:if test="${not empty userReview}">
+                        <table class="table table-striped" border='1' column='1'>
+                            <thead>
+                                <tr class="table-dark">
+                                    <th>Review</th>
+                                    <th>Rating</th>
+                                    <th></th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:forEach var="userData" items="${userReview}">
+                                    <tr>
+                                        <td>${userData.review}</td>
+                                        <td>${userData.rating}</td>
+                                        <td>
+                                            <form action="Private" method="post">
+                                                <input type="hidden" name="userID" value="${userData.userID}"/>
+                                                <input type="hidden" name="reviewID" value="${userData.reviewID}"/>
+                                                <input type="hidden" name="action" value="gotoReviewEdit" class="form-control"/>
+                                                <button type="submit" class="btn btn-success">Edit</button>
+                                            </form>
+                                        </td>
+                                        <td>
+                                            <form action="Private" method="post">
+                                                <input type="hidden" name="userID" value="${userData.userID}"/>
+                                                <input type="hidden" name="reviewID" value="${userData.reviewID}"/>
+                                                <input type="hidden" name="action" value="userDeleteReview" class="form-control"/>
+                                                <button type="submit" class="btn btn-success">Delete</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:if>
                     <div class="col-4"></div>
                 </div>
             </div>

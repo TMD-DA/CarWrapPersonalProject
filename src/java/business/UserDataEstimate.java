@@ -14,6 +14,13 @@ public class UserDataEstimate {
     public UserDataEstimate() {
     }
 
+    public UserDataEstimate(String make, String model, int year, String wrapDescription) {
+        this.make = make;
+        this.model = model;
+        this.year = year;
+        this.wrapDescription = wrapDescription;
+    }
+
     public UserDataEstimate(int userID, String firstName, String lastName, String phone, String email, String make, String model, int year, String wrapDescription) {
         this.userID = userID;
         this.firstName = firstName;

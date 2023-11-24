@@ -169,7 +169,7 @@ public class Public extends HttpServlet {
                 if (loggedInUser.getUserType().equals("admin")) {
                     url = "/adminPage.jsp";
                 } else {
-                    url = "/userPage.jsp";
+                    url = "/Private?action=gotoUserPage";
                 }
             } catch (Exception e) {
                 errors.add("A user with the provided details does not exist.");

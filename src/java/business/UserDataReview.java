@@ -1,6 +1,7 @@
 package business;
 
 public class UserDataReview {
+
     private int reviewID;
     private int userID;
     private String username;
@@ -12,7 +13,14 @@ public class UserDataReview {
     public UserDataReview() {
     }
 
+    public UserDataReview(int reviewID, String review, int rating) {
+        this.reviewID = reviewID;
+        this.review = review;
+        this.rating = rating;
+    }
+
     public UserDataReview(int reviewID, int userID, String username, String phone, String email, String review, int rating) {
+        this.reviewID = reviewID;
         this.userID = userID;
         this.username = username;
         this.phone = phone;
@@ -28,7 +36,7 @@ public class UserDataReview {
     public void setReviewID(int reviewID) {
         this.reviewID = reviewID;
     }
-   
+
     public int getUserID() {
         return userID;
     }
@@ -76,6 +84,5 @@ public class UserDataReview {
     public void setRating(int rating) {
         this.rating = rating;
     }
-    
-    
+
 }

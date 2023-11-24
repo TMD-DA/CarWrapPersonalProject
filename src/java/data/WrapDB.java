@@ -225,6 +225,85 @@ public class WrapDB {
         }
     }
     
+    public static List<UserDataReview> selectSpecificUsersDataReview(int userID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT reviewID, review, rating "
+                + "FROM review WHERE userID = ?"; 
+     
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, userID);
+            rs = ps.executeQuery();
+            UserDataReview user = null;
+            List<UserDataReview> users = new ArrayList<>();
+            
+            while (rs.next()) {
+                int reviewID = rs.getInt("reviewID");
+                String review = rs.getString("review");
+                int rating = rs.getInt("rating");
+                user = new UserDataReview(reviewID, review, rating);
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** select all sql", e);
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** select all null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static List<UserDataEstimate> selectSpecificUsersDataEstimate(int userId) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT make, model, year, wrapDescription "
+                + "FROM estimate WHERE userID = ?";
+     
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, userId);
+            rs = ps.executeQuery();
+            UserDataEstimate user = null;
+            List<UserDataEstimate> users = new ArrayList<>();
+            
+            while (rs.next()) {
+                String make = rs.getString("make");
+                String model = rs.getString("model");
+                int year = rs.getInt("year");
+                String wrapDescription = rs.getString("wrapDescription");
+                user = new UserDataEstimate(make, model, year, wrapDescription);
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** select all sql", e);
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** select all null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
     public static List<UserData> selectUsersNoEstimate() throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -665,6 +744,7 @@ public class WrapDB {
         try {
             ps = connection.prepareStatement(query);
             ps.setInt(1, userID);
+            ps.setInt(2, reviewID);
             return ps.executeUpdate();
         } catch (SQLException e) {
             LOG.log(Level.SEVERE, "*** delete review sql", e);
@@ -737,6 +817,36 @@ public class WrapDB {
                 pool.freeConnection(connection);
             } catch (Exception e) {
                 LOG.log(Level.SEVERE, "*** insert null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static void updateReview(Review review) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+
+        String query
+                = "UPDATE review "
+                + "SET review = ?, rating = ? "
+                + "WHERE reviewID = ?";
+
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setString(1, review.getReview());
+            ps.setInt(2, review.getRating());
+            ps.setInt(3, review.getReviewID());
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** get reivew sql error", e);
+            throw e;
+        } finally {
+            try {
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** Update review null pointer?", e);
                 throw e;
             }
         }

@@ -52,9 +52,9 @@
                                     <td>
                                         <form action="Private" method="post">
                                             <input type="hidden" name="userID" value="${userData.userID}"/>
-                                            <input type="hidden" name="reviewID" value="${userDate.reviewID}"
+                                            <input type="hidden" name="reviewID" value="${userData.reviewID}"/>
                                             <input type="hidden" name="action" value="adminDeleteReview" class="form-control"/>
-                                            <button type="submit" class="btn btn-success">Delete Review</button>
+                                            <button type="submit" class="btn btn-success">Delete</button>
                                         </form>
                                     </td>
                                 </tr>

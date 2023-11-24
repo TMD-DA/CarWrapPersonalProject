@@ -26,7 +26,7 @@
                 </li>
                 <c:if test="${not empty loggedInUser || loggedInUser != null}">
                     <li class="nav-item">
-                        <a href="userPage.jsp" class="nav-link text-dark">User Page</a>
+                        <a href="Private?action=gotoUserPage" class="nav-link text-dark">User Page</a>
                     </li>
                     <li class="nav-item">
                         <a href="wrapEstimate.jsp" class="nav-link text-dark">Get an Estimate</a>

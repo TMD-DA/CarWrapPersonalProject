@@ -13,7 +13,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Wrap - Request Estimate</title>
+        <title>Wrap - Edit Review</title>
 
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
@@ -22,7 +22,7 @@
     <body>
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
-            <h1>Request an estimate!</h1>
+            <h1>Edit your review!</h1>
             <br>
             <div class="container">
                 <div class="row">
@@ -32,30 +32,27 @@
                             <ul class="list-unstyled">
                                 <c:forEach items="${errors}" var="error">
                                     <li class="text-danger">${error}</li>
-                                </c:forEach>
+                                    </c:forEach>
                             </ul>
                         </c:if>
                         <form action="Private" method="post">
-                            <input type="hidden" name="action" value="requestEstimate">
-                            <label for="make-field">Vehicle Make</label>
+                            <input type="hidden" name="action" value="userEditReview">
+                            <input type="hidden" name="userID" value="<c:out value='${userID}'/>"/>
+                            <input type="hidden" name="reviewID" value="<c:out value='${reviewID}'/>"/>
+                            <label for="rating-field">Rating</label>
                             <br>
-                            <input type="text" id="make-field" name="make" class="form-control">
+                            <select id="rating-field" name="rating" class="form-control">
+                                <option value="" disabled selected>Select a rating number.</option>
+                                <c:forEach var="i" begin="1" end="10">
+                                    <option value="${i}" <c:if test="${i == userReview[0].rating}">selected</c:if>>${i}</option>
+                                </c:forEach>
+                            </select>
                             <br>
-                            <label for="model-field">Vehicle Model</label>
+                            <label for="review-field">Review</label>
                             <br>
-                            <input type="text" id="model-field" name="model" class="form-control">
+<textarea id="review-field" name="review" maxlength="255" rows="5" cols="50" class="form-control">${userReview[0].review}</textarea>                            <p>Character Limit: 255</p>
                             <br>
-                            <label for="year-field">Vehicle Year</label>
-                            <br>
-                            <input type="text" id="year-field" name="year" class="form-control">
-                            <br>
-                            <label for="wrap-description-field">Describe the wrap</label>
-                            <br>
-                            <textarea id="wrap-description-field" name="wrapdescription" maxlength="255" rows="5" cols="50" class="form-control"></textarea>
-                            <p>Character Limit: 255</p>
-                            <br>
-                            <br>
-                            <button type="submit" class="btn btn-success">Request Estimate</button>
+                            <button type="submit" class="btn btn-success">Edit Review</button>
                         </form>
                     </div>
                     <div class="col-4"></div>

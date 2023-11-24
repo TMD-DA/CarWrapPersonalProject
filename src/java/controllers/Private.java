@@ -55,6 +55,29 @@ public class Private extends HttpServlet {
 
                 break;
             }
+            case "gotoUserPage": {
+                url = "/userPage.jsp";
+                List<UserDataReview> userReview = new ArrayList<>();
+                List<UserDataEstimate> userEstimate = new ArrayList<>();
+                int userID = loggedInUser.getUserID();
+
+                try {
+                    userReview = WrapDB.selectSpecificUsersDataReview(userID);
+                } catch (SQLException e) {
+                    Logger.getLogger(WrapDB.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+                try {
+                    userEstimate = WrapDB.selectSpecificUsersDataEstimate(userID);
+                } catch (SQLException e) {
+                    Logger.getLogger(WrapDB.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+                request.setAttribute("userReview", userReview);
+                request.setAttribute("userEstimate", userEstimate);
+
+                break;
+            }
             case "gotoUpdatePage": {
                 url = "/updateUser.jsp";
 
@@ -136,7 +159,7 @@ public class Private extends HttpServlet {
                     }
 
                     if (errors.isEmpty()) {
-                        url = "/userPage.jsp";
+                        url = "/Private?action=gotoUserPage";
                     } else {
                         request.setAttribute("errorList", errors);
                         response.sendRedirect(url);
@@ -189,7 +212,7 @@ public class Private extends HttpServlet {
                     } catch (SQLException ex) {
                         Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    url = "/userPage.jsp";
+                    url = "/Private?action=gotoUserPage";
                 } else {
                     request.setAttribute("errorList", errors);
                     response.sendRedirect(url);
@@ -216,7 +239,7 @@ public class Private extends HttpServlet {
                 } catch (SQLException ex) {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                url = "/userPage.jsp";
+                url = "/Private?action=gotoUserPage";
 
                 break;
             }
@@ -271,22 +294,22 @@ public class Private extends HttpServlet {
             case "gotoAdminReviews": {
                 url = "/adminReviews.jsp";
                 List<UserDataReview> userReview = new ArrayList<>();
-                
+
                 try {
                     userReview = WrapDB.selectUsersDataReview();
                 } catch (SQLException e) {
                     Logger.getLogger(WrapDB.class.getName()).log(Level.SEVERE, null, e);
                 }
-                
+
                 request.setAttribute("userReview", userReview);
-                
+
                 break;
             }
-            
+
             case "adminDeleteReview": {
                 int userID = 0;
                 int reviewID = 0;
-                
+
                 try {
                     userID = Integer.parseInt(request.getParameter("userID"));
                 } catch (Exception e) {
@@ -305,22 +328,96 @@ public class Private extends HttpServlet {
                 }
 
                 url = "/Private?action=gotoAdminReviews";
-                
+
                 break;
             }
-            
+
             case "gotoAdminQuotes": {
                 url = "/adminQuotes.jsp";
                 List<UserDataEstimate> userEstimate = new ArrayList<>();
-                
+
                 try {
                     userEstimate = WrapDB.selectUsersDataEstimate();
                 } catch (SQLException e) {
                     Logger.getLogger(WrapDB.class.getName()).log(Level.SEVERE, null, e);
                 }
-                
+
                 request.setAttribute("userEstimate", userEstimate);
+
+                break;
+            }
+
+            case "userDeleteReview": {
+                int userID = (int) loggedInUser.getUserID();
+                int reviewID = 0;
+
+                try {
+                    reviewID = Integer.parseInt(request.getParameter("reviewID"));
+                } catch (Exception e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+                try {
+                    WrapDB.deleteReview(userID, reviewID);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                url = "/Private?action=gotoUserPage";
+
+                break;
+            }
+
+            case "gotoReviewEdit": {
+                int userID = loggedInUser.getUserID();
+                int reviewID = 0;
                 
+                try {
+                    reviewID = Integer.parseInt(request.getParameter("reviewID"));
+                } catch (Exception e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+                
+                request.setAttribute("userID", userID);
+                request.setAttribute("reviewID", reviewID);
+                
+                url = "/updateReview.jsp";
+                
+                break;
+            }
+            
+            case "userEditReview": {
+                int userID = 0;
+                int reviewID = 0;
+                int rating = 0;
+                String reviewText = request.getParameter("review");
+
+                try {
+                    userID = Integer.parseInt(request.getParameter("userID"));
+                } catch (Exception e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+                try {
+                    reviewID = Integer.parseInt(request.getParameter("reviewID"));
+                } catch (Exception e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+                try {
+                    rating = Integer.parseInt(request.getParameter("rating"));
+                } catch (Exception e) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
+                }
+
+                Review review = new Review(reviewID, userID, rating, reviewText);
+
+                try {
+                    WrapDB.updateReview(review);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+                url = "/Private?action=gotoUserPage";
+
                 break;
             }
         }
