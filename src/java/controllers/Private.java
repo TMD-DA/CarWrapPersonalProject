@@ -371,6 +371,7 @@ public class Private extends HttpServlet {
             case "gotoReviewEdit": {
                 int userID = loggedInUser.getUserID();
                 int reviewID = 0;
+                List<UserDataReview> review = new ArrayList<>();
                 
                 try {
                     reviewID = Integer.parseInt(request.getParameter("reviewID"));
@@ -378,8 +379,15 @@ public class Private extends HttpServlet {
                     Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, e);
                 }
                 
+                try {
+                    review = WrapDB.selectSpecificReviewToEdit(userID, reviewID);
+                } catch (SQLException ex) {
+                    Logger.getLogger(Private.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
                 request.setAttribute("userID", userID);
                 request.setAttribute("reviewID", reviewID);
+                request.setAttribute("review", review);
                 
                 url = "/updateReview.jsp";
                 

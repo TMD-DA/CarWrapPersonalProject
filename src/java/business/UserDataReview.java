@@ -13,6 +13,11 @@ public class UserDataReview {
     public UserDataReview() {
     }
 
+    public UserDataReview(String review, int rating) {
+        this.review = review;
+        this.rating = rating;
+    }
+    
     public UserDataReview(int reviewID, String review, int rating) {
         this.reviewID = reviewID;
         this.review = review;

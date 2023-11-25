@@ -44,13 +44,14 @@
                             <select id="rating-field" name="rating" class="form-control">
                                 <option value="" disabled selected>Select a rating number.</option>
                                 <c:forEach var="i" begin="1" end="10">
-                                    <option value="${i}" <c:if test="${i == userReview[0].rating}">selected</c:if>>${i}</option>
+                                    <option value="${i}" <c:if test="${i == review[0].rating}">selected</c:if>>${i}</option>
                                 </c:forEach>
                             </select>
                             <br>
                             <label for="review-field">Review</label>
                             <br>
-<textarea id="review-field" name="review" maxlength="255" rows="5" cols="50" class="form-control">${userReview[0].review}</textarea>                            <p>Character Limit: 255</p>
+                            <textarea id="review-field" name="review" maxlength="500" rows="5" cols="50" class="form-control">${review[0].review}</textarea>  
+                            <p>Character Limit: 500</p>
                             <br>
                             <button type="submit" class="btn btn-success">Edit Review</button>
                         </form>

@@ -620,64 +620,6 @@ public class WrapDB {
         }
     }
     
-    public static void updateUserFirstName(User user) throws SQLException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
-        PreparedStatement ps = null;
-
-        String query
-                = "UPDATE user "
-                + "SET firstName = ? "
-                + "WHERE userID = ?";
-
-        try {
-            ps = connection.prepareStatement(query);
-            ps.setString(1, user.getFirstName());
-            ps.setInt(2, user.getUserID());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "*** get user", e);
-            throw e;
-        } finally {
-            try {
-                ps.close();
-                pool.freeConnection(connection);
-            } catch (SQLException e) {
-                LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
-                throw e;
-            }
-        }
-    }
-    
-    public static void updateUserLastName(User user) throws SQLException {
-        ConnectionPool pool = ConnectionPool.getInstance();
-        Connection connection = pool.getConnection();
-        PreparedStatement ps = null;
-
-        String query
-                = "UPDATE user "
-                + "SET lastName = ? "
-                + "WHERE userID = ?";
-
-        try {
-            ps = connection.prepareStatement(query);
-            ps.setString(1, user.getLastName());
-            ps.setInt(2, user.getUserID());
-            ps.executeUpdate();
-        } catch (SQLException e) {
-            LOG.log(Level.SEVERE, "*** get user", e);
-            throw e;
-        } finally {
-            try {
-                ps.close();
-                pool.freeConnection(connection);
-            } catch (SQLException e) {
-                LOG.log(Level.SEVERE, "*** delete user null pointer?", e);
-                throw e;
-            }
-        }
-    }
-    
     public static void updateUserPhone(User user) throws SQLException {
         ConnectionPool pool = ConnectionPool.getInstance();
         Connection connection = pool.getConnection();
@@ -847,6 +789,45 @@ public class WrapDB {
                 pool.freeConnection(connection);
             } catch (SQLException e) {
                 LOG.log(Level.SEVERE, "*** Update review null pointer?", e);
+                throw e;
+            }
+        }
+    }
+    
+    public static List<UserDataReview> selectSpecificReviewToEdit(int userID, int reviewID) throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT review, rating "
+                + "FROM review WHERE userID = ? AND reviewID = ?"; 
+     
+        try {
+            ps = connection.prepareStatement(query);
+            ps.setInt(1, userID);
+            ps.setInt(2, reviewID);
+            rs = ps.executeQuery();
+            UserDataReview user = null;
+            List<UserDataReview> users = new ArrayList<>();
+            
+            while (rs.next()) {
+                String review = rs.getString("review");
+                int rating = rs.getInt("rating");
+                user = new UserDataReview(review, rating);
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** select specific review sql", e);
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** select specific review null pointer?", e);
                 throw e;
             }
         }

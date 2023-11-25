@@ -51,8 +51,8 @@
                             <br>
                             <label for="wrap-description-field">Describe the wrap</label>
                             <br>
-                            <textarea id="wrap-description-field" name="wrapdescription" maxlength="255" rows="5" cols="50" class="form-control"></textarea>
-                            <p>Character Limit: 255</p>
+                            <textarea id="wrap-description-field" name="wrapdescription" maxlength="500" rows="5" cols="50" class="form-control"></textarea>
+                            <p>Character Limit: 500</p>
                             <br>
                             <br>
                             <button type="submit" class="btn btn-success">Request Estimate</button>
