@@ -14,14 +14,31 @@
     <body>
         <jsp:include page="/layout/navbar.jsp" />
         <main id="main-content">
-            
             <div class="container">
                 <div class="row">
-                    <div class="col-3"></div>
-                    <h1> This is where the user reviews will be able to be publicly seen</h1>
-                    <div class="col-3"></div>
+                    <div class="col-4"></div>
+                    <div class="col-4">
+                        <h1>Customer Reviews</h1>
+                    </div>
+                    <div class="col-4"></div>
                 </div>
             </div>
+            <br><br>
+            <div class="container">
+                <div class="row">
+                    <c:forEach var="userData" items="${userReview}">
+                        <div class="col-md-4">
+                            <div class="card mb-4">
+                                <div class="card-body">
+                                    <h5 class="card-title">${userData.username}</h5>
+                                    <p class="card-text">${userData.review}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+
         </main>
     </body>
 </html>

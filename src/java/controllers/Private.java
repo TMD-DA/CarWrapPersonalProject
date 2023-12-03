@@ -40,16 +40,6 @@ public class Private extends HttpServlet {
 
                 break;
             }
-            case "viewEstimates": {
-                url = "/viewEstimates.jsp";
-
-                break;
-            }
-            case "viewReivews": {
-                url = "/viewReviews.jsp";
-
-                break;
-            }
             case "gotoReview": {
                 url = "/submitReview.jsp";
 

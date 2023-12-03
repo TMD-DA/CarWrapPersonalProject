@@ -19,7 +19,7 @@
                     <a href="about.jsp" class="nav-link text-dark">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a href="reviews.jsp" class="nav-link text-dark">Reviews</a>
+                    <a href="Public?action=gotoReviewPage" class="nav-link text-dark">Reviews</a>
                 </li>
                 <li class="nav-item">
                     <a href="services.jsp" class="nav-link text-dark">Services</a>

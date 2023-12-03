@@ -41,6 +41,19 @@ public class Public extends HttpServlet {
             login(request);
         }
 
+        if (action.equals("gotoReviewPage")) {
+            url = "/reviews.jsp";
+            List<UserDataReview> userReview = new ArrayList<>();
+
+            try {
+                userReview = WrapDB.selectReviewForReviewPage();
+            } catch (SQLException e) {
+                Logger.getLogger(WrapDB.class.getName()).log(Level.SEVERE, null, e);
+            }
+
+            request.setAttribute("userReview", userReview);
+        }
+
         getServletContext().getRequestDispatcher(url).forward(request, response);
     }
 
@@ -92,7 +105,7 @@ public class Public extends HttpServlet {
         String phone = ((String) request.getParameter("phone"));
         String password = ((String) request.getParameter("password"));
         String verifyPassword = ((String) request.getParameter("verify-password"));
-        
+
         phone = Validation.formatPhoneNumber(phone);
 
         List<String> errors = new ArrayList<String>();
@@ -105,19 +118,19 @@ public class Public extends HttpServlet {
         if (Validation.isValidEmail(email)) {
             errors.add("The email you entered is already tied with an account.");
         }
-        
+
         if (!Validation.isValidUsername(username)) {
             errors.add("The username you entered is already taken.");
         }
-        
+
         if (!Validation.isValidPhoneNumber(phone)) {
             errors.add("The phone number entered is invalid please enter the phone number again.");
         }
-        
+
         if (!Validation.isValidPassword(password)) {
             errors.add("Your password must be longer than 10 characters.");
         }
-        
+
         if (!password.equals(verifyPassword)) {
             errors.add("The password and password verification fields don't match.");
         }
@@ -145,14 +158,14 @@ public class Public extends HttpServlet {
 
         List<String> errors = new ArrayList<String>();
 
-        if (usernameOrEmail == null) {
+        if (usernameOrEmail.equals("")) {
             errors.add("Username/email is null.");
             url = "/login.jsp";
             request.setAttribute("errors", errors);
             return;
         }
 
-        if (password == null) {
+        if (password.equals("")) {
             errors.add("Password is null.");
             url = "/login.jsp";
             request.setAttribute("errors", errors);
@@ -173,11 +186,12 @@ public class Public extends HttpServlet {
                 }
             } catch (Exception e) {
                 errors.add("A user with the provided details does not exist.");
-
+                request.setAttribute("errors", errors);
                 url = "/login.jsp";
             }
         } else {
             errors.add("Invalid username/email or password");
+            request.setAttribute("errors", errors);
             url = "/login.jsp";
         }
     }

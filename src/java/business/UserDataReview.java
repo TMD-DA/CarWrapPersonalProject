@@ -17,6 +17,11 @@ public class UserDataReview {
         this.review = review;
         this.rating = rating;
     }
+
+    public UserDataReview(String username, String review) {
+        this.username = username;
+        this.review = review;
+    }
     
     public UserDataReview(int reviewID, String review, int rating) {
         this.reviewID = reviewID;

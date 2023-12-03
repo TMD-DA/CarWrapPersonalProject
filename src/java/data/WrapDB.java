@@ -832,4 +832,42 @@ public class WrapDB {
             }
         }
     }
+    
+    public static List<UserDataReview> selectReviewForReviewPage() throws SQLException {
+        ConnectionPool pool = ConnectionPool.getInstance();
+        Connection connection = pool.getConnection();
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        String query = "SELECT r.review, u.username FROM review r "
+                + "INNER JOIN user u ON r.userID = u.userID "
+                + "WHERE r.rating > 8 LIMIT 6"; 
+     
+        try {
+            ps = connection.prepareStatement(query);
+            rs = ps.executeQuery();
+            UserDataReview user = null;
+            List<UserDataReview> users = new ArrayList<>();
+            
+            while (rs.next()) {
+                String username = rs.getString("username");
+                String review = rs.getString("review");
+                user = new UserDataReview(username, review);
+                users.add(user);
+            }
+            return users;
+        } catch (SQLException e) {
+            LOG.log(Level.SEVERE, "*** select review page sql", e);
+            throw e;
+        } finally {
+            try {
+                rs.close();
+                ps.close();
+                pool.freeConnection(connection);
+            } catch (SQLException e) {
+                LOG.log(Level.SEVERE, "*** select specific review null pointer?", e);
+                throw e;
+            }
+        }
+    }
 }

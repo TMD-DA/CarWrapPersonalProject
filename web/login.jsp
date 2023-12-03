@@ -14,18 +14,23 @@
     <body>
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
-            <h1>Log In to Wrap</h1>
+            
             <br>
             <div class="container">
                 <div class="row">
                     <div class="col-4"></div>
                     
                     <div class="col-4">
+                        <h1>Log In to Wrap</h1>
+                        <c:if test="${not empty errors}">
+                            <ul class="list-unstyled">
+                                <c:forEach items="${errors}" var="error">
+                                    <li class="text-danger">${error}</li>
+                                </c:forEach>
+                            </ul>
+                        </c:if>
                         <form method="post" action="Public">
                             <input type="hidden" name="action" value="login">
-                            <c:forEach items="${requestScope.errors}" var="error">
-                                <p class="text-danger">${error}</p>
-                            </c:forEach>
                             <label for="email-or-username-field">Username or Email</label>
                             <br>
                             <input type="text" id="email-or-username-field" name="email-or-username" class="form-control">

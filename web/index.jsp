@@ -11,9 +11,28 @@
     <body>
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
-            <h1>Welcome to Wrap!</h1>
+            <div class="container">
+                <div class="row">
+                    <div>
+                        <h1>Welcome to Wrap!</h1>
+                        <br>
+                        <p>Greetings and welcome to Wrap, your premier 
+                            destination for top-notch car wrap services in the beautiful 
+                            state of Colorado! Nestled in the heart of the Rockies, we 
+                            take pride in offering a unique blend of expertise and 
+                            creativity to elevate your vehicle's style. Whether you're 
+                            looking to make a bold statement on Denver's bustling streets 
+                            or add a touch of mountain flair to your ride, our team is here 
+                            to transform your vision into reality. As you embark on this 
+                            journey with us, expect nothing short of exceptional craftsmanship, 
+                            attention to detail, and a commitment to delivering wraps that not 
+                            only protect but also make heads turn. Join the vibrant community of 
+                            Colorado drivers who have entrusted us with their vehicles. Start your 
+                            adventure with Wrap – where the road meets unparalleled style!</p>
+                    </div>
+                    <img src="./Images/GettyImages-1322207311.png" alt="Car getting a blue wrap applied to it." />
+                </div>
+            </div>
         </main>
-            
-            
     </body>
 </html>
