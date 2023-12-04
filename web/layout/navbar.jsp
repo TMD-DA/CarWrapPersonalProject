@@ -4,37 +4,37 @@
 <a href="#main-content" id="stmc">Skip to Main Content</a>
 
 <header>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-secondary">
         <a class="navbar-brand" href="index.jsp">Wrap</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#movie-genius-navbar" aria-controls="movie-genius-navbar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
       
-        <div class="collapse navbar-collapse" id="movie-genius-navbar">
+        <div class="collapse navbar-collapse" id="wrap-navbar">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item text-dark">
-                    <a href="index.jsp" class="nav-link text-dark">Home</a>
+                <li class="nav-item text-light">
+                    <a href="index.jsp" class="nav-link text-light">Home</a>
                 </li>
-                <li class="nav-item text-dark">
-                    <a href="about.jsp" class="nav-link text-dark">About Us</a>
-                </li>
-                <li class="nav-item">
-                    <a href="Public?action=gotoReviewPage" class="nav-link text-dark">Reviews</a>
+                <li class="nav-item text-light">
+                    <a href="about.jsp" class="nav-link text-light">About Us</a>
                 </li>
                 <li class="nav-item">
-                    <a href="services.jsp" class="nav-link text-dark">Services</a>
+                    <a href="Public?action=gotoReviewPage" class="nav-link text-light">Reviews</a>
+                </li>
+                <li class="nav-item">
+                    <a href="services.jsp" class="nav-link text-light">Services</a>
                 </li>
                 <c:if test="${not empty loggedInUser || loggedInUser != null}">
                     <li class="nav-item">
-                        <a href="Private?action=gotoUserPage" class="nav-link text-dark">User Page</a>
+                        <a href="Private?action=gotoUserPage" class="nav-link text-light">User Page</a>
                     </li>
                     <li class="nav-item">
-                        <a href="wrapEstimate.jsp" class="nav-link text-dark">Get an Estimate</a>
+                        <a href="wrapEstimate.jsp" class="nav-link text-light">Get an Estimate</a>
                     </li>
                     <li class="nav-item">
                         <form action="Private" method="post">
                             <input type="hidden" value="logout" name="action" />
-                            <button role="link" type="submit" class="nav-link text-dark">Log Out</button>
+                            <button role="link" type="submit" class="nav-link text-light">Log Out</button>
                         </form>
                     </li>
                     
@@ -42,7 +42,7 @@
                 <c:if test="${loggedInUser.userType eq 'admin'}">
                     <!-- Begin Admin Dropdown -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle text-light" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Admin
                         </a>
                         <ul class="dropdown-menu">
@@ -68,10 +68,10 @@
                 </c:if>
                 <c:if test="${empty sessionScope.loggedInUser}">
                     <li class="nav-item">
-                        <a href="register.jsp" class="nav-link text-dark">Register</a>
+                        <a href="register.jsp" class="nav-link text-light">Register</a>
                     </li>
                     <li class="nav-item">
-                        <a href="login.jsp" class="nav-link text-dark">Log In</a>
+                        <a href="login.jsp" class="nav-link text-light">Log In</a>
                     </li>
                     
                 </c:if>

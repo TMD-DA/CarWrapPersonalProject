@@ -180,7 +180,7 @@ public class Public extends HttpServlet {
                 request.getSession().setAttribute("loggedInUser", loggedInUser);
 
                 if (loggedInUser.getUserType().equals("admin")) {
-                    url = "/adminPage.jsp";
+                    url = "/Private?action=gotoAdminQuotes";
                 } else {
                     url = "/Private?action=gotoUserPage";
                 }

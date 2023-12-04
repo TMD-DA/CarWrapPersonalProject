@@ -19,9 +19,10 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
         <link href="wrap.css" rel="stylesheet" type="text/css">
     </head>
-    <body>
+    <body class="bg-light">
         <jsp:include page="layout/navbar.jsp" />
         <main id="main-content">
+            <br>
             <h1>Admin Page</h1>
             <br>
             <div class="container">
@@ -51,8 +52,8 @@
                                     <td>${userData.rating}</td>
                                     <td>
                                         <form action="Private" method="post">
-                                            <input type="hidden" name="userID" value="${userData.userID}"/>
-                                            <input type="hidden" name="reviewID" value="${userData.reviewID}"/>
+                                            <input type="hidden" name="userID" value="<c:out value='${userData.userID}'/>"/>
+                                            <input type="hidden" name="reviewID" value="<c:out value='${userData.reviewID}'/>"/>
                                             <input type="hidden" name="action" value="adminDeleteReview" class="form-control"/>
                                             <button type="submit" class="btn btn-success">Delete</button>
                                         </form>
